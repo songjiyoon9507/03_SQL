@@ -42,10 +42,10 @@ NATURAL JOIN JOB
 LEFT JOIN DEPARTMENT ON (DEPT_ID = DEPT_CODE)
 -- WHERE ENT_YN = 'N'
 WHERE HIRE_DATE IN (SELECT MIN(HIRE_DATE)
-                  FROM EMPLOYEE
-                  LEFT JOIN DEPARTMENT ON (DEPT_ID = DEPT_CODE)
-                  WHERE ENT_YN = 'N'
-                  GROUP BY DEPT_CODE)
+                    FROM EMPLOYEE
+                    LEFT JOIN DEPARTMENT ON (DEPT_ID = DEPT_CODE)
+                    WHERE ENT_YN = 'N'
+                    GROUP BY DEPT_CODE)
 ORDER BY HIRE_DATE;
 
 -- 6번 
@@ -54,30 +54,28 @@ FROM EMPLOYEE
 NATURAL JOIN JOB
 LEFT JOIN DEPARTMENT ON (DEPT_ID = DEPT_CODE)
 WHERE HIRE_DATE IN (SELECT MIN(HIRE_DATE)
-                  FROM EMPLOYEE
-                  WHERE ENT_YN != 'Y'
-                  GROUP BY DEPT_CODE)
+                    FROM EMPLOYEE
+                    WHERE ENT_YN != 'Y'
+                    GROUP BY DEPT_CODE)
 ORDER BY HIRE_DATE;
 
 -- 6번
-
+-- 서브 쿼리에 들어갈 내용
 SELECT MIN(HIRE_DATE)
 FROM EMPLOYEE
 WHERE ENT_YN != 'Y'
-AND DEPT_CODE = 'D1'; 
+AND DEPT_CODE = 'D1';
 
 
 SELECT EMP_ID, EMP_NAME, NVL(DEPT_TITLE, '소속없음'), JOB_NAME, HIRE_DATE
 FROM EMPLOYEE MAIN
 NATURAL JOIN JOB
 LEFT JOIN DEPARTMENT ON (DEPT_ID = DEPT_CODE)
-WHERE HIRE_DATE = (
-							SELECT MIN(HIRE_DATE)
-							FROM EMPLOYEE SUB
-							WHERE ENT_YN != 'Y'
-							AND MAIN.DEPT_CODE = SUB.DEPT_CODE
-							OR (MAIN.DEPT_CODE IS NULL AND SUB.DEPT_CODE IS NULL) 
-						)
+WHERE HIRE_DATE = (SELECT MIN(HIRE_DATE)
+							     FROM EMPLOYEE SUB
+							     WHERE ENT_YN != 'Y'
+							     AND MAIN.DEPT_CODE = SUB.DEPT_CODE
+							     OR (MAIN.DEPT_CODE IS NULL AND SUB.DEPT_CODE IS NULL))
 ORDER BY HIRE_DATE;
 
 --IS NULL
@@ -99,3 +97,39 @@ AND HIRE_DATE IN (SELECT MIN(HIRE_DATE)
                   OR SUB.DEPT_CODE IS NULL))
 ORDER BY HIRE_DATE;
 */
+
+SELECT EMP_ID, EMP_NAME, JOB_NAME,
+			'2024'  - TO_CHAR ( TO_DATE(SUBSTR((EMP_NO),1,2), 'RR'), 'YYYY' )"나이",
+			 SALARY * ( 1 + NVL(BONUS, 0) ) * 12 "보너스포함연봉"
+FROM EMPLOYEE
+NATURAL JOIN JOB
+WHERE EMP_NO IN (SELECT MIN('2024'  - TO_CHAR ( TO_DATE(SUBSTR((EMP_NO),1,2), 'RR'), 'YYYY' ))
+                 FROM EMPLOYEE
+                 NATURAL JOIN JOB
+                 GROUP BY JOB_NAME)
+ORDER BY 나이 DESC;
+
+SELECT EMP_ID, EMP_NAME, JOB_NAME,
+			'2024'  - TO_CHAR ( TO_DATE(SUBSTR((EMP_NO),1,2), 'RR'), 'YYYY' )"나이",
+			 SALARY * ( 1 + NVL(BONUS, 0) ) * 12 "보너스포함연봉"
+FROM EMPLOYEE
+NATURAL JOIN JOB
+WHERE (JOB_NAME, "나이") IN (SELECT JOB_NAME, MIN('2024' - TO_CHAR ( TO_DATE(SUBSTR((EMP_NO),1,2), 'RR'), 'YYYY' )) "나이"
+														 FROM JOB
+                             NATURAL JOIN EMPLOYEE
+                             GROUP BY JOB_NAME
+                             ORDER BY 2 DESC)
+ORDER BY 2;
+
+SELECT EMP_ID, EMP_NAME, JOB_NAME,
+			'2024'  - TO_CHAR ( TO_DATE(SUBSTR((EMP_NO),1,2), 'RR'), 'YYYY' )"나이",
+			 SALARY * ( 1 + NVL(BONUS, 0) ) * 12 "보너스포함연봉"
+FROM EMPLOYEE			 
+NATURAL JOIN JOB
+WHERE (JOB_NAME, EMP_NO) IN (SELECT JOB_NAME, EMP_NO (SELECT MIN('2024' - TO_CHAR ( TO_DATE(SUBSTR((EMP_NO),1,2), 'RR'), 'YYYY' )) "나이"
+													   												  FROM JOB
+                             NATURAL JOIN EMPLOYEE
+                             GROUP BY JOB_NAME
+                             ORDER BY 2 DESC));
+
+
