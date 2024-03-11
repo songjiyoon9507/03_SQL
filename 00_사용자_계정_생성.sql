@@ -10,10 +10,10 @@ ALTER SESSION SET "_ORACLE_SCRIPT" = TRUE;
 -- CTRL + ENTER : 선택한 SQL 수행 (마우스 커서 올려두고 CTRL ENTER 눌러야함)
 
 -- 사용자 계정 생성(관리자 계정에서 가능)
-CREATE USER workbook IDENTIFIED BY workbook;
+CREATE USER exam_sjy IDENTIFIED BY exam_sjy;
 
 -- 사용자 계정에 권한 부여
-GRANT RESOURCE, CONNECT TO workbook;
+GRANT RESOURCE, CONNECT TO exam_sjy;
 
 -- 객체가 생성될 수 있는 공간 할당량 지정
-ALTER USER workbook DEFAULT TABLESPACE SYSTEM QUOTA UNLIMITED ON SYSTEM;
+ALTER USER exam_sjy DEFAULT TABLESPACE SYSTEM QUOTA UNLIMITED ON SYSTEM;
