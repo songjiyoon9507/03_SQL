@@ -12,6 +12,8 @@ ALTER SESSION SET "_ORACLE_SCRIPT" = TRUE;
 -- 사용자 계정 생성(관리자 계정에서 가능)
 CREATE USER exam_sjy IDENTIFIED BY exam_sjy;
 
+DROP USER kh_phs CASCADE;
+
 -- 사용자 계정에 권한 부여
 GRANT RESOURCE, CONNECT TO exam_sjy;
 
