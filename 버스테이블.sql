@@ -113,3 +113,6 @@ CREATE TABLE RESERVE_PERSON(
 
 SELECT * FROM RESERVE_PERSON;
 COMMIT;
+
+-- 버스 예약한 회원 으로 받고
+-- 아이디 패스워드도
