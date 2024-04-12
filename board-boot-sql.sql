@@ -15,3 +15,12 @@ SELECT COUNT(*)
 FROM "MEMBER"
 WHERE MEMBER_DEL_FL = 'N'
 AND MEMBER_EMAIL = 'user01@kh.or.kr';
+
+-- 인증번호 테이블 조회
+SELECT * FROM "TB_AUTH_KEY";
+
+-- 이메일, 인증번호 확인
+SELECT COUNT(*)
+FROM TB_AUTH_KEY
+WHERE EMAIL = 'songjiyundev@gmail.com'
+AND AUTH_KEY = 'CuO8dF';
