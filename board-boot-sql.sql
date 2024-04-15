@@ -22,5 +22,5 @@ SELECT * FROM "TB_AUTH_KEY";
 -- 이메일, 인증번호 확인
 SELECT COUNT(*)
 FROM TB_AUTH_KEY
-WHERE EMAIL = 'songjiyundev@gmail.com'
-AND AUTH_KEY = 'CuO8dF';
+WHERE EMAIL = ''
+AND AUTH_KEY = '';
