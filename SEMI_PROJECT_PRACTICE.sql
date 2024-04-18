@@ -1,0 +1,168 @@
+/* MEMBER 테이블 생성 */
+CREATE TABLE "MEMBER"(
+	"MEMBER_NO"       NUMBER CONSTRAINT "MEMBER_PK" PRIMARY KEY,
+	"MEMBER_EMAIL" 		NVARCHAR2(50)  NOT NULL,
+	"MEMBER_PW"				NVARCHAR2(100) NOT NULL,
+	"MEMBER_NICKNAME" NVARCHAR2(10)  NOT NULL,
+	"MEMBER_TEL"			CHAR(11), -- 카카오톡 로그인 연동함으로써 회원가입시켜줄 때 를 위해 NOT NULL 지움. 
+	"MEMBER_ADDRESS"	NVARCHAR2(150),
+	"PROFILE_IMG"			VARCHAR2(300),
+	"ENROLL_DATE"			DATE           DEFAULT SYSDATE NOT NULL,
+	"MEMBER_DEL_FL"		CHAR(1) 			 DEFAULT 'N'
+									  CHECK("MEMBER_DEL_FL" IN ('Y', 'N') ),
+	"AUTHORITY"				NUMBER 			   DEFAULT 1
+										CHECK("AUTHORITY" IN (1, 2) )
+);
+
+-- 회원 번호 시퀀스 만들기
+CREATE SEQUENCE SEQ_MEMBER_NO NOCACHE;
+
+COMMIT;
+
+
+
+INSERT INTO "MEMBER"
+VALUES(SEQ_MEMBER_NO.NEXTVAL, 
+			 'user01@kh.or.kr',
+			 'pass01!',
+			 '유저일',
+			 '01012341234',
+			 NULL,
+			 NULL,
+			 DEFAULT,
+			 DEFAULT,
+			 DEFAULT
+);
+
+SELECT * FROM "MEMBER";
+
+
+DELETE FROM MEMBER WHERE MEMBER_NO = 16;
+
+
+
+
+
+
+
+
+-- 이메일, 인증키 저장 테이블 생성
+CREATE TABLE "AUTH_KEY"(
+	"KEY_NO"    NUMBER PRIMARY KEY, -- pk 임
+	"EMAIL"	    NVARCHAR2(50) NOT NULL, -- 어떤 이메일계정에게
+	"AUTH_KEY"  CHAR(6)	NOT NULL, -- 어떤 인증번호를 보냈는가?
+	"CREATE_TIME" DATE DEFAULT SYSDATE NOT NULL -- 생성시간
+);
+COMMENT ON COLUMN "TB_AUTH_KEY"."KEY_NO"      IS '인증키 구분 번호(시퀀스)';
+COMMENT ON COLUMN "TB_AUTH_KEY"."EMAIL"       IS '인증 이메일';
+COMMENT ON COLUMN "TB_AUTH_KEY"."AUTH_KEY"    IS '인증 번호';
+COMMENT ON COLUMN "TB_AUTH_KEY"."CREATE_TIME" IS '인증 번호 생성 시간';
+CREATE SEQUENCE SEQ_KEY_NO NOCACHE; -- 인증키 구분 번호 시퀀스
+SELECT * FROM "AUTH_KEY";
+COMMIT;
+
+
+ 		SELECT COUNT(*) FROM AUTH_KEY
+ 		WHERE 
+ 		EMAIL = 'wowns590@naver.com'
+ 		AND
+ 		AUTH_KEY = 'w60ZLo';
+
+ 	
+ 	
+-----------------------------------
+ 	
+ 	
+--LECTURE
+CREATE TABLE "LECTURE"(
+	"LECTURE_NO" 	NUMBER CONSTRAINT "LECTURE_PK" PRIMARY KEY,
+	"MEMBER_NO" 	NUMBER REFERENCES "MEMBER",
+	"LECTURE_NAME" 	VARCHAR(300) NOT NULL, -- 홈화면에 보여질 제목
+	"LECTURE_TITLE" VARCHAR(300) NOT NULL, -- 상세보기로 볼때의 제목이 될것.
+	"LECTURE_CONTENT" CLOB NOT NULL, 
+	"ENROLL_DATE" 	  DATE DEFAULT SYSDATE NOT NULL,
+	"LECTURE_DEL_FL" CHAR(1) DEFAULT 'N' CHECK("LECTURE_DEL_FL" IN ('Y', 'N')),
+	"PRICE"			NUMBER DEFAULT 0 NOT NULL 
+);
+
+SELECT * FROM LECTURE;
+
+-- 가격에 대한 것도 여기에 올려야 하나? 응 홈 화면에도 가격에 대한 거 표시해야되니까. 그냥 여기에 둔다.
+CREATE SEQUENCE SEQ_LECTURE_NO NOCACHE; -- 인증키 구분 번호 시퀀스
+
+
+
+INSERT INTO "LECTURE"
+VALUES(SEQ_LECTURE_NO.NEXTVAL, -- LECTURE_NO
+			 20, -- MEMBER_NO
+			 '나만의 향수 만들기', -- LECTURE_NAME
+			 '나의 향기를 칠해봐요', -- LECTURE_TITLE 
+			 '향기로운 사람이 되고 싶다구요? 왜요? 왜죠? ', -- LECTURE_CONTENT
+			 DEFAULT, -- ENROLL_DATE
+			 DEFAULT, -- LECTURE_DEL_FL
+			 30000 -- PRICE
+);
+
+INSERT INTO "LECTURE"
+VALUES(SEQ_LECTURE_NO.NEXTVAL, -- LECTURE_NO
+			 20, -- MEMBER_NO
+			 '나만의 향수 만들기22', -- LECTURE_NAME
+			 '나의 향기를 칠해봐요22', -- LECTURE_TITLE 
+			 '향기로운 사람이 되고 싶다구요? 왜요? 왜죠? 22', -- LECTURE_CONTENT
+			 DEFAULT, -- ENROLL_DATE
+			 DEFAULT, -- LECTURE_DEL_FL
+			 40000 -- PRICE
+);
+
+INSERT INTO "LECTURE"
+VALUES(SEQ_LECTURE_NO.NEXTVAL, -- LECTURE_NO
+			 20, -- MEMBER_NO
+			 '나만의 향수 만들기33', -- LECTURE_NAME
+			 '나의 향기를 칠해봐요33', -- LECTURE_TITLE 
+			 '향기로운 사람이 되고 싶다구요? 왜요? 왜죠? 33', -- LECTURE_CONTENT
+			 DEFAULT, -- ENROLL_DATE
+			 DEFAULT, -- LECTURE_DEL_FL
+			 50000 -- PRICE
+);
+
+
+
+-- 그리고, 하나의 강의당 관련 이미지들은 많기 때문에 필연적으로, 따로 테이블로 만든다. 	
+
+
+-- FILE 이라는 테이블을 만들것.
+CREATE TABLE "LECTURE_FILE"(
+	"LECTURE_FILE_NO" 	 NUMBER CONSTRAINT "LECTURE_FILE_PK" PRIMARY KEY, -- 기본
+	"LECTURE_NO" 	NUMBER REFERENCES "LECTURE", -- 어떤 강의에 속한 이미지인지를 나타냄.
+	"FILE_PATH" 	VARCHAR2(500),
+	"FILE_ORIGINAL_NAME" VARCHAR2(300),
+	"FILE_RENAME" 		VARCHAR2(100),
+	"FILE_UPLOAD_DATE" 	DATE DEFAULT SYSDATE
+);
+
+CREATE SEQUENCE SEQ_LECTURE_FILE_NO NOCACHE; -- 인증키 구분 번호 시퀀스
+
+SELECT * FROM lecture_file;
+
+INSERT INTO "LECTURE_FILE"
+VALUES(SEQ_LECTURE_FILE_NO.NEXTVAL, -- LECTURE_FILE_NO
+			 1, -- LECTURE_NO
+			 '/lecture/file/', -- FILE_PATH
+			 'perfume1.jpg', -- FILE_ORIGINAL_NAME 
+			 'perfume1.jpg', -- FILE_RENAME
+			 DEFAULT -- FILE_UPLOAD_DATE
+);
+
+INSERT INTO "LECTURE_FILE"
+VALUES(SEQ_LECTURE_FILE_NO.NEXTVAL, -- LECTURE_FILE_NO
+			 1, -- LECTURE_NO
+			 '/lecture/file/', -- FILE_PATH
+			 'perfume2.jpg', -- FILE_ORIGINAL_NAME 
+			 'perfume2.jpg', — FILE_RENAME
+			 DEFAULT — FILE_UPLOAD_DATE
+);
+
+
+
+COMMIT;
+
