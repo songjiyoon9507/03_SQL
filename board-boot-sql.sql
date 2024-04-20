@@ -16,6 +16,12 @@ FROM "MEMBER"
 WHERE MEMBER_DEL_FL = 'N'
 AND MEMBER_EMAIL = 'user01@kh.or.kr';
 
+-- 닉네임 중복 검사
+SELECT COUNT(*)
+FROM "MEMBER"
+WHERE MEMBER_DEL_FL = 'N'
+AND MEMBER_NICKNAME  = '유저일';
+
 -- 인증번호 테이블 조회
 SELECT * FROM "TB_AUTH_KEY";
 
