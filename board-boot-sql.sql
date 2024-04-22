@@ -61,3 +61,84 @@ UPDATE "MEMBER" SET MEMBER_DEL_FL ='N' WHERE MEMBER_NO = 4;
 UPDATE UPLOAD_FILE SET
 FILE_ORIGINAL_NAME = 'zzang.png'
 WHERE FILE_NO = 1;
+
+-- 게시판 종류 조회
+SELECT BOARD_CODE "boardCode", BOARD_NAME "boardName"
+FROM BOARD_TYPE
+ORDER BY BOARD_CODE;
+
+SELECT * FROM BOARD_TYPE
+ORDER BY BOARD_CODE;
+
+-- 게시글 목록 조회
+-- 특정 게시판에 삭제되지 않은 게시글 목록 조회
+-- 단, 최신글이 제일 위에 존재
+-- 몇 초/분/시간 전 또는 YYYY-MM-DD 형식으로 작성일 조회
+-- + 댓글 개수
+-- + 좋아요 개수
+
+-- 번호 / 제목[댓글 개수] / 작성자 닉네임 / 작성일 / 조회수 / 좋아요 개수
+-- 상관 서브 쿼리
+-- 1) 메인 쿼리 1행 조회
+-- 2) 1행 조회 결과를 이용해서 서브쿼리 수행
+--    (메인쿼리 모두 조회할 때까지 반복)
+
+SELECT BOARD_NO, BOARD_TITLE, MEMBER_NICKNAME, READ_COUNT,
+	(SELECT COUNT(*) 
+	FROM "COMMENT" C 
+	WHERE C.BOARD_NO = B.BOARD_NO) COMMENT_COUNT,	
+	
+	(SELECT COUNT(*)
+	FROM BOARD_LIKE L
+	WHERE L.BOARD_NO = B.BOARD_NO) LIKE_COUNT,
+	
+	CASE 
+		WHEN SYSDATE - BOARD_WRITE_DATE < 1 / 24 / 60
+		THEN FLOOR((SYSDATE - BOARD_WRITE_DATE) * 24 * 60 * 60) || '초 전'
+		
+		WHEN SYSDATE - BOARD_WRITE_DATE < 1 / 24
+		THEN FLOOR((SYSDATE - BOARD_WRITE_DATE) * 24 * 60) || '분 전'
+		
+		WHEN SYSDATE - BOARD_WRITE_DATE < 1
+		THEN FLOOR((SYSDATE - BOARD_WRITE_DATE) * 24) || '시간 전'
+		
+		ELSE TO_CHAR(BOARD_WRITE_DATE, 'YYYY-MM-DD')
+		
+	END BOARD_WRITE_DATE
+	
+FROM BOARD B
+JOIN "MEMBER" USING(MEMBER_NO)
+WHERE BOARD_DEL_FL = 'N'
+AND BOARD_CODE = 1
+ORDER BY BOARD_NO DESC;
+
+-- 현재 시간 - 하루 전
+SELECT (SYSDATE -
+	TO_DATE('2024-04-21 12:01:30', 'YYYY-MM-DD HH24:MI:SS')) * 60 * 60 * 24
+FROM DUAL;
+
+SELECT BOARD_WRITE_DATE FROM BOARD;
+
+-- 게시글 2개 추가
+BEGIN
+	FOR I IN 1..2 LOOP
+		
+		INSERT INTO "BOARD"
+		VALUES(SEQ_BOARD_NO.NEXTVAL,
+					 SEQ_BOARD_NO.CURRVAL || '번째 게시글',
+					 SEQ_BOARD_NO.CURRVAL || '번째 게시글 내용 입니다',
+					 DEFAULT, DEFAULT, DEFAULT, DEFAULT,
+					 CEIL( DBMS_RANDOM.VALUE(0,3) ), -- BOARD_CODE(게시판종류)
+					 1 -- MEMBER_NO(작성회원번호)
+		);
+		
+	END LOOP;
+END;
+
+COMMIT;
+
+-- 특정 게시판 게시글 수 조회
+SELECT COUNT(*)
+FROM "BOARD"
+WHERE BOARD_DEL_FL = 'N'
+AND BOARD_CODE = 1;
