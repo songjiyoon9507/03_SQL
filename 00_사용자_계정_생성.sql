@@ -15,7 +15,7 @@ ALTER SESSION SET "_ORACLE_SCRIPT" = TRUE;
 --CREATE USER board_project IDENTIFIED BY board1234;
 CREATE USER spring_semi IDENTIFIED BY spring1234;
 
-DROP USER spring_semi CASCADE;
+--DROP USER spring_semi CASCADE;
 
 -- 사용자 계정에 권한 부여
 -- GRANT RESOURCE, CONNECT TO exam_sjy;
