@@ -377,23 +377,23 @@ CREATE SEQUENCE SEQ_IMG_NO NOCACHE;
 
 /* BOARD_IMG 테이블에 샘플 데이터 삽입 */
 INSERT INTO "BOARD_IMG" VALUES(
-	SEQ_IMG_NO.NEXTVAL, '/images/board/', '원본1.jpg', 'test1.jpg', 0, 1998
+	SEQ_IMG_NO.NEXTVAL, '/images/board/', '원본1.jpg', 'test1.jpg', 0, 1995
 );
 
 INSERT INTO "BOARD_IMG" VALUES(
-	SEQ_IMG_NO.NEXTVAL, '/images/board/', '원본2.jpg', 'test2.jpg', 1, 1998
+	SEQ_IMG_NO.NEXTVAL, '/images/board/', '원본2.jpg', 'test2.jpg', 1, 1995
 );
 
 INSERT INTO "BOARD_IMG" VALUES(
-	SEQ_IMG_NO.NEXTVAL, '/images/board/', '원본3.jpg', 'test3.jpg', 2, 1998
+	SEQ_IMG_NO.NEXTVAL, '/images/board/', '원본3.jpg', 'test3.jpg', 2, 1995
 );
 
 INSERT INTO "BOARD_IMG" VALUES(
-	SEQ_IMG_NO.NEXTVAL, '/images/board/', '원본4.jpg', 'test4.jpg', 3, 1998
+	SEQ_IMG_NO.NEXTVAL, '/images/board/', '원본4.jpg', 'test4.jpg', 3, 1995
 );
 
 INSERT INTO "BOARD_IMG" VALUES(
-	SEQ_IMG_NO.NEXTVAL, '/images/board/', '원본5.jpg', 'test5.jpg', 4, 1998
+	SEQ_IMG_NO.NEXTVAL, '/images/board/', '원본5.jpg', 'test5.jpg', 4, 1995
 );
 
 
@@ -403,7 +403,7 @@ COMMIT;
 
 /* 좋아요 테이블(BOARD_LIKE) 샘플 데이터 추가 */
 INSERT INTO "BOARD_LIKE"
-VALUES(1, 1998); -- 1번 회원이 1998번 글에 좋아요를 클릭함
+VALUES(1, 1995); -- 1번 회원이 1998번 글에 좋아요를 클릭함
 
 COMMIT;
 
