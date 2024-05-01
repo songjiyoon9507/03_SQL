@@ -99,7 +99,7 @@ CREATE TABLE "LECTURE" (
 	"PRICE"	NUMBER	DEFAULT 0	NOT NULL,
 	"INSTRUCTOR_INTRODUCTION"	VARCHAR2(300)		NOT NULL,
 	"LECTURE_LEVEL"	NUMBER		NOT NULL,
-	"START_TIME"	NUMBER		NOT NULL,
+	"START_TIME"	NVARCHAR2(8)		NOT NULL,
 	"HOW_LONG"	NUMBER		NOT NULL,
 	"ACCEPTABLE_NUMBER"	NUMBER		NOT NULL,
 	"REST_NUMBER"	NUMBER		NOT NULL,
@@ -108,6 +108,17 @@ CREATE TABLE "LECTURE" (
 	"ENROLL_DATE"	DATE	DEFAULT SYSDATE	NOT NULL,
 	"LECTURE_DEL_FL"	CHAR(1)	DEFAULT 'N'	NOT NULL
 );
+
+CREATE TABLE "LECTURE_TYPE" (
+	"LECTURE_CATEGORY_NUM" NUMBER NOT NULL,
+	"CATEGORY_NAME" NVARCHAR2(30) NOT NULL
+);
+
+
+ALTER TABLE LECTURE ADD CONSTRAINT LECTURE_CATEGORY_NUM
+FOREIGN KEY(LECTURE_CATEGORY_NUM) REFERENCES LECTURE_TYPE;
+
+COMMIT;
 
 COMMENT ON COLUMN "LECTURE"."LECTURE_NO" IS '강의번호(PK)';
 
@@ -270,6 +281,10 @@ ALTER TABLE "LECTURE" ADD CONSTRAINT "PK_LECTURE" PRIMARY KEY (
 	"LECTURE_NO"
 );
 
+ALTER TABLE "LECTURE_TYPE" ADD CONSTRAINT "PK_LECTURE_TYPE" PRIMARY KEY (
+	"LECTURE_CATEGORY_NUM"
+);
+
 ALTER TABLE "LECTURE_FILE" ADD CONSTRAINT "PK_LECTURE_FILE" PRIMARY KEY (
 	"LECTURE_FILE_NO"
 );
@@ -305,6 +320,8 @@ CHECK("COMMENT_DEL_FL" IN ('Y', 'N') );
 -------------------------------------------------------
 /* 게시글 번호 시퀀스 생성 */
 CREATE SEQUENCE SEQ_BOARD_NO NOCACHE;
+
+CREATE SEQUENCE SEQ_LECTURE_CATEGORY_NUM NOCACHE;
 
 
 /* 게시판(BOARD) 테이블 샘플 데이터 삽입(PL/SQL)*/
@@ -418,3 +435,204 @@ VALUES(1, 2000); -- 1번 회원이 1998번 글에 좋아요를 클릭함
 COMMIT;
 
 SELECT * FROM BOARD_LIKE;
+
+CREATE TABLE "REGISTER_AUTH"(
+   "REGISTER_AUTH_NO" NUMBER CONSTRAINT "REGISTER_AUTH_KEY" PRIMARY KEY,
+   "MEMBER_NO" NUMBER NOT NULL,
+   "AUTH_KEY" NVARCHAR2(4) NOT NULL,
+   "PASS_FLAG" NUMBER NOT NULL, -- 통과하면 1 , 통과전엔 0 
+   CONSTRAINT "REGISTER_AUTH_FK" FOREIGN KEY ("MEMBER_NO") REFERENCES "MEMBER"("MEMBER_NO") ON DELETE CASCADE
+);
+
+CREATE SEQUENCE SEQ_REGISTER_AUTH_NO NOCACHE; 
+
+SELECT * FROM REGISTER_AUTH;
+
+COMMIT;
+
+SELECT * FROM LECTURE_TYPE;
+
+INSERT INTO LECTURE_TYPE VALUES (
+SEQ_LECTURE_CATEGORY_NUM.NEXTVAL,
+'비누'
+);
+INSERT INTO LECTURE_TYPE VALUES (
+SEQ_LECTURE_CATEGORY_NUM.NEXTVAL,
+'유리 공예'
+);
+INSERT INTO LECTURE_TYPE VALUES (
+SEQ_LECTURE_CATEGORY_NUM.NEXTVAL,
+'드로잉'
+);
+INSERT INTO LECTURE_TYPE VALUES (
+SEQ_LECTURE_CATEGORY_NUM.NEXTVAL,
+'가죽 공예'
+);
+INSERT INTO LECTURE_TYPE VALUES (
+SEQ_LECTURE_CATEGORY_NUM.NEXTVAL,
+'요리'
+);
+
+COMMIT;
+
+INSERT INTO "LECTURE"
+VALUES(SEQ_LECTURE_NO.NEXTVAL, -- LECTURE_NO
+          1, -- MEMBER_NO
+          1, -- 1은 향수를 나타냄. 
+          '나만의 향수 만들기', -- LECTURE_NAME
+          '향기로 자신을 나타내보시는게 어떠신가요..?', -- LECTURE_TITLE 
+          '향기를 배우는 수업',
+          '향수를 어떻게 배우는지 과정이 궁금하시지 않으셨나요? 실제로 향수를 만들어보면서 어떤 향기가 자신에게 어울리는지, 자신을 알아가는 시간을 가져봐요!', -- LECTURE_CONTENT
+          30000, -- PRICE
+          '안녕하세요 강사 최재준입니다. 저는 어쩌구저쩌구 갈릴레오 알리오올리오', -- INSTRUCTOR INTRODUCTION
+          1, -- 레벨 초급 중급 고급
+          1030, -- 강의 시작 시각
+          2, -- 강의 지속 시간
+          15, -- 수용가능인원
+          13, -- 남은자리
+          TO_DATE('2024-04-01', 'YYYY-MM-DD'), -- 강의 시작 날짜
+          TO_DATE('2024-04-15', 'YYYY-MM-DD'), -- 강의 종료 날짜
+          DEFAULT, -- 강의 등록 날짜6
+          DEFAULT -- 강의를 삭제했는지 여부
+);
+
+INSERT INTO "LECTURE"
+VALUES(SEQ_LECTURE_NO.NEXTVAL, -- LECTURE_NO
+          3, -- MEMBER_NO
+          2, -- 1은 향수를 나타냄. 
+          '나만의 향수 만들기', -- LECTURE_NAME
+          '향기로 자신을 나타내보시는게 어떠신가요..?', -- LECTURE_TITLE 
+          '향기를 배우는 수업',
+          '향수를 어떻게 배우는지 과정이 궁금하시지 않으셨나요? 실제로 향수를 만들어보면서 어떤 향기가 자신에게 어울리는지, 자신을 알아가는 시간을 가져봐요!', -- LECTURE_CONTENT
+          30000, -- PRICE
+          '안녕하세요 강사 최재준입니다. 저는 어쩌구저쩌구 갈릴레오 알리오올리오', -- INSTRUCTOR INTRODUCTION
+          1, -- 레벨 초급 중급 고급
+          1030, -- 강의 시작 시각
+          2, -- 강의 지속 시간
+          15, -- 수용가능인원
+          13, -- 남은자리
+          TO_DATE('2024-04-01', 'YYYY-MM-DD'), -- 강의 시작 날짜
+          TO_DATE('2024-04-15', 'YYYY-MM-DD'), -- 강의 종료 날짜
+          DEFAULT, -- 강의 등록 날짜6
+          DEFAULT -- 강의를 삭제했는지 여부
+);
+
+INSERT INTO "LECTURE"
+VALUES(SEQ_LECTURE_NO.NEXTVAL, -- LECTURE_NO
+          4, -- MEMBER_NO
+          3, -- 1은 향수를 나타냄. 
+          '나만의 향수 만들기', -- LECTURE_NAME
+          '향기로 자신을 나타내보시는게 어떠신가요..?', -- LECTURE_TITLE 
+          '향기를 배우는 수업',
+          '향수를 어떻게 배우는지 과정이 궁금하시지 않으셨나요? 실제로 향수를 만들어보면서 어떤 향기가 자신에게 어울리는지, 자신을 알아가는 시간을 가져봐요!', -- LECTURE_CONTENT
+          30000, -- PRICE
+          '안녕하세요 강사 최재준입니다. 저는 어쩌구저쩌구 갈릴레오 알리오올리오', -- INSTRUCTOR INTRODUCTION
+          1, -- 레벨 초급 중급 고급
+          1030, -- 강의 시작 시각
+          2, -- 강의 지속 시간
+          15, -- 수용가능인원
+          13, -- 남은자리
+          TO_DATE('2024-04-01', 'YYYY-MM-DD'), -- 강의 시작 날짜
+          TO_DATE('2024-04-15', 'YYYY-MM-DD'), -- 강의 종료 날짜
+          DEFAULT, -- 강의 등록 날짜6
+          DEFAULT -- 강의를 삭제했는지 여부
+);
+
+INSERT INTO "LECTURE"
+VALUES(SEQ_LECTURE_NO.NEXTVAL, -- LECTURE_NO
+          1, -- MEMBER_NO
+          4, -- 1은 향수를 나타냄. 
+          '나만의 향수 만들기', -- LECTURE_NAME
+          '향기로 자신을 나타내보시는게 어떠신가요..?', -- LECTURE_TITLE 
+          '향기를 배우는 수업',
+          '향수를 어떻게 배우는지 과정이 궁금하시지 않으셨나요? 실제로 향수를 만들어보면서 어떤 향기가 자신에게 어울리는지, 자신을 알아가는 시간을 가져봐요!', -- LECTURE_CONTENT
+          30000, -- PRICE
+          '안녕하세요 강사 최재준입니다. 저는 어쩌구저쩌구 갈릴레오 알리오올리오', -- INSTRUCTOR INTRODUCTION
+          1, -- 레벨 초급 중급 고급
+          1030, -- 강의 시작 시각
+          2, -- 강의 지속 시간
+          15, -- 수용가능인원
+          13, -- 남은자리
+          TO_DATE('2024-04-01', 'YYYY-MM-DD'), -- 강의 시작 날짜
+          TO_DATE('2024-04-15', 'YYYY-MM-DD'), -- 강의 종료 날짜
+          DEFAULT, -- 강의 등록 날짜6
+          DEFAULT -- 강의를 삭제했는지 여부
+);
+
+INSERT INTO "LECTURE"
+VALUES(SEQ_LECTURE_NO.NEXTVAL, -- LECTURE_NO
+          5, -- MEMBER_NO
+          5, -- 1은 향수를 나타냄. 
+          '나만의 요리 만들기', -- LECTURE_NAME
+          '향기로 자신을 나타내보시는게 어떠신가요..?', -- LECTURE_TITLE 
+          '향기를 배우는 수업',
+          '향수를 어떻게 배우는지 과정이 궁금하시지 않으셨나요? 실제로 향수를 만들어보면서 어떤 향기가 자신에게 어울리는지, 자신을 알아가는 시간을 가져봐요!', -- LECTURE_CONTENT
+          30000, -- PRICE
+          '안녕하세요 강사 최재준입니다. 저는 어쩌구저쩌구 갈릴레오 알리오올리오', -- INSTRUCTOR INTRODUCTION
+          1, -- 레벨 초급 중급 고급
+          1030, -- 강의 시작 시각
+          2, -- 강의 지속 시간
+          15, -- 수용가능인원
+          13, -- 남은자리
+          TO_DATE('2024-04-01', 'YYYY-MM-DD'), -- 강의 시작 날짜
+          TO_DATE('2024-04-15', 'YYYY-MM-DD'), -- 강의 종료 날짜
+          DEFAULT, -- 강의 등록 날짜6
+          DEFAULT -- 강의를 삭제했는지 여부
+);
+
+COMMIT;
+
+SELECT * FROM LECTURE_TYPE;
+
+SELECT * FROM LECTURE;
+
+	    SELECT
+	        L.LECTURE_NO,
+	        L.MEMBER_NO,
+	        L.LECTURE_CATEGORY_NUM,
+	        L.LECTURE_HOME_TITLE,
+	        L.LECTURE_HOME_CONTENT,
+	        L.PRICE,
+	        L.LECTURE_LEVEL,
+     	    TO_CHAR(L.START_DATE, 'YYYY-MM-DD') FORMMATED_START_DATE,
+	        TO_CHAR(L.END_DATE, 'YYYY-MM-DD') FORMMATED_END_DATE,	 
+  
+			
+			LF.LECTURE_FILE_NO,
+			LF.FILE_PATH,
+			LF.ORIGINAL_NAME,
+			LF.FILE_RENAME,
+			
+			M.MEMBER_NICKNAME,
+	        M.PROFILE_IMG
+			
+			
+			FROM LECTURE L
+			LEFT JOIN LECTURE_FILE LF ON L.LECTURE_NO = LF.LECTURE_NO
+			LEFT JOIN MEMBER M ON L.MEMBER_NO = M.MEMBER_NO
+			WHERE LECTURE_CATEGORY_NUM = 1
+			ORDER BY L.ENROLL_DATE DESC;
+
+CREATE TABLE "LECTURE_ADDRESS"(
+   "LECTURE_ADDRESS_NO" NUMBER CONSTRAINT "LECTURE_ADDRESS_KEY" PRIMARY KEY,
+   "MEMBER_NO" NUMBER,
+   "LECTURE_NO" NUMBER, 
+   "POST_CODE" NVARCHAR2(30),
+   "ROAD_ADDRESS" NVARCHAR2(30),
+   "JIBUN_ADDRESS" NVARCHAR2(30),
+   "DETAIL_ADDRESS" NVARCHAR2(100),
+   CONSTRAINT "LECTURE_ADDRESS_FK_1" FOREIGN KEY ("MEMBER_NO") REFERENCES "MEMBER"("MEMBER_NO") ON DELETE CASCADE,
+   CONSTRAINT "LECTURE_ADDRESS_FK_2" FOREIGN KEY ("LECTURE_NO") REFERENCES "LECTURE"("LECTURE_NO") ON DELETE CASCADE
+);
+
+CREATE SEQUENCE SEQ_LECTURE_ADDRESS_NO NOCACHE;
+COMMIT;
+SELECT * FROM LECTURE_ADDRESS;
+
+CREATE TABLE "LECTURE_MAP"(
+   "LECTURE_MAP_NO" NUMBER CONSTRAINT "LECTURE_MAP_KEY" PRIMARY KEY,
+   "LECTURE_NO" NUMBER, 
+   "LATITUDE" NVARCHAR2(300),
+   "HARDNESS" NVARCHAR2(300),
+   CONSTRAINT "LECTURE_MAP_FK" FOREIGN KEY ("LECTURE_NO") REFERENCES "LECTURE"("LECTURE_NO") ON DELETE CASCADE
+);
