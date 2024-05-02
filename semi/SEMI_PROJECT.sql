@@ -479,7 +479,7 @@ INSERT INTO "LECTURE"
 VALUES(SEQ_LECTURE_NO.NEXTVAL, -- LECTURE_NO
           1, -- MEMBER_NO
           1, -- 1은 향수를 나타냄. 
-          '나만의 향수 만들기', -- LECTURE_NAME
+          '새로운비누비누비누', -- LECTURE_NAME
           '향기로 자신을 나타내보시는게 어떠신가요..?', -- LECTURE_TITLE 
           '향기를 배우는 수업',
           '향수를 어떻게 배우는지 과정이 궁금하시지 않으셨나요? 실제로 향수를 만들어보면서 어떤 향기가 자신에게 어울리는지, 자신을 알아가는 시간을 가져봐요!', -- LECTURE_CONTENT
@@ -500,7 +500,7 @@ INSERT INTO "LECTURE"
 VALUES(SEQ_LECTURE_NO.NEXTVAL, -- LECTURE_NO
           3, -- MEMBER_NO
           2, -- 1은 향수를 나타냄. 
-          '나만의 향수 만들기', -- LECTURE_NAME
+          '새로운유우우우우리이이이', -- LECTURE_NAME
           '향기로 자신을 나타내보시는게 어떠신가요..?', -- LECTURE_TITLE 
           '향기를 배우는 수업',
           '향수를 어떻게 배우는지 과정이 궁금하시지 않으셨나요? 실제로 향수를 만들어보면서 어떤 향기가 자신에게 어울리는지, 자신을 알아가는 시간을 가져봐요!', -- LECTURE_CONTENT
@@ -521,7 +521,7 @@ INSERT INTO "LECTURE"
 VALUES(SEQ_LECTURE_NO.NEXTVAL, -- LECTURE_NO
           4, -- MEMBER_NO
           3, -- 1은 향수를 나타냄. 
-          '나만의 향수 만들기', -- LECTURE_NAME
+          '새로운 드!로!잉!', -- LECTURE_NAME
           '향기로 자신을 나타내보시는게 어떠신가요..?', -- LECTURE_TITLE 
           '향기를 배우는 수업',
           '향수를 어떻게 배우는지 과정이 궁금하시지 않으셨나요? 실제로 향수를 만들어보면서 어떤 향기가 자신에게 어울리는지, 자신을 알아가는 시간을 가져봐요!', -- LECTURE_CONTENT
@@ -542,7 +542,7 @@ INSERT INTO "LECTURE"
 VALUES(SEQ_LECTURE_NO.NEXTVAL, -- LECTURE_NO
           1, -- MEMBER_NO
           4, -- 1은 향수를 나타냄. 
-          '나만의 향수 만들기', -- LECTURE_NAME
+          '새로운 가죽이잖아', -- LECTURE_NAME
           '향기로 자신을 나타내보시는게 어떠신가요..?', -- LECTURE_TITLE 
           '향기를 배우는 수업',
           '향수를 어떻게 배우는지 과정이 궁금하시지 않으셨나요? 실제로 향수를 만들어보면서 어떤 향기가 자신에게 어울리는지, 자신을 알아가는 시간을 가져봐요!', -- LECTURE_CONTENT
@@ -563,7 +563,7 @@ INSERT INTO "LECTURE"
 VALUES(SEQ_LECTURE_NO.NEXTVAL, -- LECTURE_NO
           5, -- MEMBER_NO
           5, -- 1은 향수를 나타냄. 
-          '나만의 요리 만들기', -- LECTURE_NAME
+          ' 새로운요리왕', -- LECTURE_NAME
           '향기로 자신을 나타내보시는게 어떠신가요..?', -- LECTURE_TITLE 
           '향기를 배우는 수업',
           '향수를 어떻게 배우는지 과정이 궁금하시지 않으셨나요? 실제로 향수를 만들어보면서 어떤 향기가 자신에게 어울리는지, 자신을 알아가는 시간을 가져봐요!', -- LECTURE_CONTENT
@@ -585,6 +585,10 @@ COMMIT;
 SELECT * FROM LECTURE_TYPE;
 
 SELECT * FROM LECTURE;
+
+SELECT COUNT(*) FROM LECTURE;
+
+SELECT COUNT(*) FROM LECTURE WHERE LECTURE_CATEGORY_NUM = 1; 
 
 	    SELECT
 	        L.LECTURE_NO,
