@@ -115,8 +115,7 @@ CREATE TABLE "LECTURE_TYPE" (
 );
 
 
-ALTER TABLE LECTURE ADD CONSTRAINT LECTURE_CATEGORY_NUM
-FOREIGN KEY(LECTURE_CATEGORY_NUM) REFERENCES LECTURE_TYPE;
+
 
 COMMIT;
 
@@ -301,6 +300,9 @@ ALTER TABLE "COMMENT" ADD CONSTRAINT "PK_COMMENT" PRIMARY KEY (
 	"COMMENT_NO"
 );
 
+ALTER TABLE LECTURE ADD CONSTRAINT LECTURE_CATEGORY_NUM
+FOREIGN KEY(LECTURE_CATEGORY_NUM) REFERENCES LECTURE_TYPE;
+
 COMMIT;
 
 
@@ -328,6 +330,8 @@ CREATE SEQUENCE SEQ_LECTURE_CATEGORY_NUM NOCACHE;
 
 
 SELECT * FROM "MEMBER";
+
+SELECT * FROM BOARD;
 
 -- DBMS_RANDOM.VALUE(0,3) : 0.0 이상, 3.0 미만의 난수
 -- CEIL( DBMS_RANDOM.VALUE(0,3) ) : 1,2,3 중 하나
@@ -479,7 +483,7 @@ INSERT INTO "LECTURE"
 VALUES(SEQ_LECTURE_NO.NEXTVAL, -- LECTURE_NO
           1, -- MEMBER_NO
           1, -- 1은 향수를 나타냄. 
-          '새로운비누비누비누', -- LECTURE_NAME
+          '비누비누비누', -- LECTURE_NAME
           '향기로 자신을 나타내보시는게 어떠신가요..?', -- LECTURE_TITLE 
           '향기를 배우는 수업',
           '향수를 어떻게 배우는지 과정이 궁금하시지 않으셨나요? 실제로 향수를 만들어보면서 어떤 향기가 자신에게 어울리는지, 자신을 알아가는 시간을 가져봐요!', -- LECTURE_CONTENT
@@ -500,7 +504,7 @@ INSERT INTO "LECTURE"
 VALUES(SEQ_LECTURE_NO.NEXTVAL, -- LECTURE_NO
           3, -- MEMBER_NO
           2, -- 1은 향수를 나타냄. 
-          '새로운유우우우우리이이이', -- LECTURE_NAME
+          '유리', -- LECTURE_NAME
           '향기로 자신을 나타내보시는게 어떠신가요..?', -- LECTURE_TITLE 
           '향기를 배우는 수업',
           '향수를 어떻게 배우는지 과정이 궁금하시지 않으셨나요? 실제로 향수를 만들어보면서 어떤 향기가 자신에게 어울리는지, 자신을 알아가는 시간을 가져봐요!', -- LECTURE_CONTENT
@@ -521,7 +525,7 @@ INSERT INTO "LECTURE"
 VALUES(SEQ_LECTURE_NO.NEXTVAL, -- LECTURE_NO
           4, -- MEMBER_NO
           3, -- 1은 향수를 나타냄. 
-          '새로운 드!로!잉!', -- LECTURE_NAME
+          '드!로!잉!', -- LECTURE_NAME
           '향기로 자신을 나타내보시는게 어떠신가요..?', -- LECTURE_TITLE 
           '향기를 배우는 수업',
           '향수를 어떻게 배우는지 과정이 궁금하시지 않으셨나요? 실제로 향수를 만들어보면서 어떤 향기가 자신에게 어울리는지, 자신을 알아가는 시간을 가져봐요!', -- LECTURE_CONTENT
@@ -542,7 +546,7 @@ INSERT INTO "LECTURE"
 VALUES(SEQ_LECTURE_NO.NEXTVAL, -- LECTURE_NO
           1, -- MEMBER_NO
           4, -- 1은 향수를 나타냄. 
-          '새로운 가죽이잖아', -- LECTURE_NAME
+          '가죽이잖아', -- LECTURE_NAME
           '향기로 자신을 나타내보시는게 어떠신가요..?', -- LECTURE_TITLE 
           '향기를 배우는 수업',
           '향수를 어떻게 배우는지 과정이 궁금하시지 않으셨나요? 실제로 향수를 만들어보면서 어떤 향기가 자신에게 어울리는지, 자신을 알아가는 시간을 가져봐요!', -- LECTURE_CONTENT
@@ -561,9 +565,9 @@ VALUES(SEQ_LECTURE_NO.NEXTVAL, -- LECTURE_NO
 
 INSERT INTO "LECTURE"
 VALUES(SEQ_LECTURE_NO.NEXTVAL, -- LECTURE_NO
-          5, -- MEMBER_NO
+          1, -- MEMBER_NO
           5, -- 1은 향수를 나타냄. 
-          ' 새로운요리왕', -- LECTURE_NAME
+          '요리왕', -- LECTURE_NAME
           '향기로 자신을 나타내보시는게 어떠신가요..?', -- LECTURE_TITLE 
           '향기를 배우는 수업',
           '향수를 어떻게 배우는지 과정이 궁금하시지 않으셨나요? 실제로 향수를 만들어보면서 어떤 향기가 자신에게 어울리는지, 자신을 알아가는 시간을 가져봐요!', -- LECTURE_CONTENT
