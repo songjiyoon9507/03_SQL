@@ -8,8 +8,8 @@ COMPLETE_CONDITION NUMBER NOT NULL, -- 완료조건 한명만 해도되면 1, �
 FILE_PATH VARCHAR2(500), -- 파일 하나 올릴 수 있게함.
 ORIGINAL_NAME VARCHAR2(300),
 FILE_RENAME VARCHAR2(100),
-TODO_DATE, -- 요청한 날짜를 기록함. 조회조건 중 등록순을 위함.
-GIHAN, -- 기한을 나타냄 DATE
-STATUS, -- 완료여부. 3가지 경우가 있음. 1 2 3 으로 구분. 1은 기본값으로서 아직 기한이 안지났고, 미완료인 상태. 2는 기한이 안지났고 완료인 상태, 3은 기한이 지났고 미완료인 상태(실패)
-TODO_COMPLETE -- 요청 받은 사람이 완료하기를 눌렀을 때 상태 변화를 나타내 줌 3번 페이지 나눌 때 사용
+TODO_DATE DATE DEFAULT SYSDATE, -- 요청한 날짜를 기록함. 조회조건 중 등록순을 위함.
+GIHAN DATE, -- 기한을 나타냄 DATE
+STATUS NUMBER, -- 완료여부. 3가지 경우가 있음. 1 2 3 으로 구분. 1은 기본값으로서 아직 기한이 안지났고, 미완료인 상태. 2는 기한이 안지났고 완료인 상태, 3은 기한이 지났고 미완료인 상태(실패)
+TODO_COMPLETE CHAR(1) DEFAULT 'N' NOT NULL -- 요청 받은 사람이 완료하기를 눌렀을 때 상태 변화를 나타내 줌 3번 페이지 나눌 때 사용
 );
