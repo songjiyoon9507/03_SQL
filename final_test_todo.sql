@@ -3,9 +3,6 @@ CREATE TABLE TODO (
 	TODO_CONTENT NVARCHAR2(300), -- 내용 CLOB 이든지 NVARCHAR2
 	TODO_REQUEST_MEMBER_NO NUMBER NOT NULL, -- 요청한 놈 MEMBER테이블 기본키로서 이 컬럼은 외래키로 설정함. 1번 페이지 나눌 때 사용
 	COMPLETE_CONDITION NUMBER NOT NULL, -- 완료조건 한명만 해도되면 1, 모두 다 해야 완료되는 조건이면 2, 1인 경우 한명이 완료 누르면 완료된 걸로 넘어가게
-	FILE_PATH VARCHAR2(500), -- 파일 하나 올릴 수 있게함.
-	ORIGINAL_NAME VARCHAR2(300),
-	FILE_RENAME VARCHAR2(100),
 	TODO_DATE DATE DEFAULT SYSDATE, -- 요청한 날짜를 기록함. 조회조건 중 등록순을 위함.
 	DEADLINE DATE, -- 기한을 나타냄 DATE
 	TODO_COMPLETE CHAR(1) DEFAULT 'N' NOT NULL, -- 요청 받은 사람이 완료하기를 눌렀을 때 상태 변화를 나타내 줌 3번 페이지 나눌 때 사용
