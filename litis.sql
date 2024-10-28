@@ -48,3 +48,32 @@ WHERE ORG_NO_DEL_FL = 'N'
 START WITH PARENT_ORG_NO IS NULL
 CONNECT BY PRIOR ORG_NO = PARENT_ORG_NO
 ORDER SIBLINGS BY ORG_NO;
+
+-- 넣은 순서대로 출력이 아닌 순서를 새로 부여해서 출력
+SELECT 
+    ORG_NAME, LEVEL
+FROM 
+    ORGANIZATION
+WHERE 
+    ORG_NO_DEL_FL = 'N'
+START WITH 
+    PARENT_ORG_NO IS NULL
+CONNECT BY 
+    PRIOR ORG_NO = PARENT_ORG_NO
+ORDER SIBLINGS BY 
+    CASE ORG_NAME
+        WHEN '대표이사' THEN 1
+        WHEN '경영관리' THEN 2
+        WHEN '영업본부' THEN 3
+        WHEN '영업 1팀' THEN 4
+        WHEN '영업 2팀' THEN 5
+        WHEN '솔루션사업부' THEN 6
+        WHEN '프로젝트 수행 팀' THEN 7
+        WHEN '연구소' THEN 8
+        WHEN '연구소 1' THEN 9
+        WHEN '엔진 개발' THEN 10
+        WHEN '연구소 2' THEN 11
+        WHEN '솔루션 개발' THEN 12
+        WHEN '시스템 개발' THEN 13
+        ELSE 999
+    END;
