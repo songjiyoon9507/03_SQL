@@ -183,3 +183,7 @@ alter table member modify content text;
 alter table member drop content;
 
 use member;
+
+desc member;
+
+select * from member;
